@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>excusAmI — Ordina su WhatsApp. Niente app. Niente attese.</title>
+  <meta name="description" content="I tuoi clienti ordinano direttamente da WhatsApp dal tavolo. Consultano il menù, chiedono ingredienti, ordinano. Stiamo selezionando i primi 3 ristoranti pilota per il lancio.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://excusami.xyz/">
+  <meta property="og:title" content="excusAmI — Ordina su WhatsApp. Niente app. Niente attese.">
+  <meta property="og:description" content="I tuoi clienti ordinano direttamente da WhatsApp dal tavolo. Stiamo selezionando i primi 3 ristoranti pilota per il lancio.">
+  <meta property="og:image" content="https://excusami.xyz/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="excusAmI — Ordina su WhatsApp. Niente app. Niente attese.">
+  <meta name="twitter:description" content="I tuoi clienti ordinano direttamente da WhatsApp dal tavolo. Stiamo selezionando i primi 3 ristoranti pilota per il lancio.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #25D366;
+      --green-dark: #128C7E;
+      --black: #0a0a0a;
+      --white: #fafaf8;
+      --cream: #f5f2eb;
+      --gray: #6b6b6b;
+      --border: #e8e4dc;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(250,250,248,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span { color: var(--green); }
+
+    nav a {
+      text-decoration: none;
+      color: var(--black);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .nav-cta {
+      background: var(--black);
+      color: var(--white) !important;
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 13px !important;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--green-dark); }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--black); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(37,211,102,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gray);
+      margin-bottom: 32px;
+      width: fit-content;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-tag .dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(48px, 7vw, 96px);
+      line-height: 1.0;
+      letter-spacing: -2px;
+      max-width: 900px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--green);
+    }
+
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 18px;
+      color: var(--gray);
+      max-width: 480px;
+      line-height: 1.6;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 40px;
+      align-items: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--green);
+      color: white;
+      padding: 16px 28px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 30px rgba(37,211,102,0.4);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--black);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      padding: 16px 20px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--black);
+      background: var(--cream);
+    }
+
+    .hero-note {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 16px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    /* SOCIAL PROOF */
+    .proof-bar {
+      background: var(--cream);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      overflow-x: auto;
+    }
+
+    .proof-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      font-size: 13px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    .proof-item strong {
+      color: var(--black);
+      font-size: 20px;
+      font-family: 'Instrument Serif', serif;
+    }
+
+    /* PROBLEM */
+    .section {
+      padding: 100px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(36px, 5vw, 60px);
+      line-height: 1.1;
+      letter-spacing: -1px;
+      max-width: 700px;
+    }
+
+    h2 em { font-style: italic; color: var(--green); }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 60px;
+      align-items: center;
+    }
+
+    .problem-visual {
+      background: var(--black);
+      border-radius: 24px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .problem-scene {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .scene-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 16px;
+      color: white;
+      font-size: 14px;
+    }
+
+    .scene-icon {
+      font-size: 24px;
+      width: 40px;
+      text-align: center;
+    }
+
+    .scene-text { flex: 1; }
+    .scene-text strong { display: block; margin-bottom: 2px; }
+    .scene-text span { color: rgba(255,255,255,0.5); font-size: 12px; }
+
+    .scene-bad {
+      color: #ff4444;
+      font-size: 18px;
+    }
+
+    .problem-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .problem-item {
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: all 0.2s;
+    }
+
+    .problem-item:hover {
+      border-color: var(--black);
+      background: var(--cream);
+    }
+
+    .problem-item h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .problem-item p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.5;
+    }
+
+    /* HOW IT WORKS */
+    .how-section {
+      background: var(--black);
+      color: white;
+      padding: 100px 40px;
+    }
+
+    .how-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .how-section .section-label { color: rgba(255,255,255,0.4); }
+    .how-section h2 { color: white; }
+    .how-section h2 em { color: var(--green); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-top: 60px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .step {
+      background: var(--black);
+      padding: 48px 36px;
+      position: relative;
+    }
+
+    .step-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 72px;
+      color: rgba(255,255,255,1);
+      line-height: 1;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .step-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .step h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: white;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+    }
+
+    /* VANTAGGI */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 60px;
+    }
+
+    .feature {
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature:hover {
+      border-color: var(--green);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(37,211,102,0.1);
+    }
+
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .feature h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    .feature-big {
+      grid-column: span 2;
+      background: var(--cream);
+      border-color: var(--border);
+    }
+
+    .feature-full {
+      grid-column: span 2;
+    }
+
+    /* PRICING */
+    .pricing-section {
+      background: var(--cream);
+      padding: 100px 40px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pricing-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      text-align: center;
+    }
+
+    .pricing-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 60px;
+      margin-top: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--green);
+    }
+
+    .pricing-badge {
+      display: inline-block;
+      background: var(--green);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+
+    .pricing-setup {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+
+    .pricing-setup strong {
+      color: var(--black);
+      font-size: 18px;
+    }
+
+    .pricing-amount {
+      font-family: 'Instrument Serif', serif;
+      font-size: 80px;
+      line-height: 1;
+      letter-spacing: -3px;
+      margin: 16px 0 4px;
+    }
+
+    .pricing-amount sup {
+      font-size: 32px;
+      vertical-align: top;
+      margin-top: 16px;
+    }
+
+    .pricing-period {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 40px;
+    }
+
+    .pricing-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      text-align: left;
+      margin-bottom: 40px;
+    }
+
+    .pricing-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .pricing-feature::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    /* CHAT DEMO */
+    .demo-section {
+      padding: 100px 40px;
+    }
+
+    .demo-section > .section-label,
+    .demo-section > h2 {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .demo-section > .demo-grid {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-top: 60px;
+      align-items: center;
+    }
+
+    .chat-window {
+      background: #ECE5DD;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    .chat-header {
+      background: var(--green-dark);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+    }
+
+    .chat-avatar {
+      width: 40px; height: 40px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .chat-info strong { display: block; font-size: 15px; }
+    .chat-info span { font-size: 12px; opacity: 0.8; }
+
+    .chat-messages {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 320px;
+    }
+
+    .msg {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .msg-in {
+      background: white;
+      align-self: flex-start;
+      border-radius: 4px 12px 12px 12px;
+    }
+
+    .msg-out {
+      background: #DCF8C6;
+      align-self: flex-end;
+      border-radius: 12px 4px 12px 12px;
+    }
+
+    .msg-time {
+      font-size: 10px;
+      color: rgba(0,0,0,0.4);
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .demo-text h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 36px;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .demo-text p {
+      font-size: 16px;
+      color: var(--gray);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    /* CTA FINALE */
+    .cta-section {
+      background: var(--black);
+      color: white;
+      padding: 120px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-bg {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(37,211,102,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-section h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(40px, 6vw, 72px);
+      color: white;
+      letter-spacing: -2px;
+      max-width: 700px;
+      margin: 0 auto 16px;
+      position: relative;
+    }
+
+    .cta-section h2 em { color: var(--green); }
+
+    .cta-section p {
+      color: rgba(255,255,255,0.5);
+      font-size: 16px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--black);
+      padding: 16px 32px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+
+    .btn-white:hover {
+      background: var(--cream);
+      transform: translateY(-1px);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 40px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--gray);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* MENU CHAT SECTION */
+    .menu-chats-section {
+      background: var(--cream);
+      padding: 100px 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .menu-chats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .mini-chats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+
+    .mini-chat {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .mini-chat-label {
+      background: var(--black);
+      color: white;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .mini-chat-header {
+      background: var(--green-dark);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+    }
+
+    .mini-chat-avatar {
+      width: 32px; height: 32px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .mini-chat-info strong { font-size: 13px; display: block; }
+    .mini-chat-info span { font-size: 11px; opacity: 0.8; }
+
+    .mini-chat-messages {
+      background: #ECE5DD;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 200px;
+    }
+
+    .mini-msg {
+      max-width: 85%;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .mini-msg-in {
+      background: white;
+      align-self: flex-start;
+      border-radius: 4px 10px 10px 10px;
+    }
+
+    .mini-msg-out {
+      background: #DCF8C6;
+      align-self: flex-end;
+      border-radius: 10px 4px 10px 10px;
+    }
+
+    /* REQUIREMENTS SECTION */
+    .requirements-section {
+      padding: 100px 40px;
+    }
+
+    .requirements-section > .section-label,
+    .requirements-section > h2,
+    .requirements-section > .section-sub {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .requirements-section > .requirements-grid {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .requirements-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+
+    .req-card {
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .req-card:hover {
+      border-color: var(--green);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(37,211,102,0.08);
+    }
+
+    .req-icon {
+      font-size: 36px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .req-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .req-card p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .req-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gray);
+    }
+
+    .req-note-green {
+      background: rgba(37,211,102,0.1);
+      border-color: rgba(37,211,102,0.3);
+      color: var(--green-dark);
+    }
+
+    .req-card-full {
+      grid-column: span 2;
+      background: var(--black);
+      color: white;
+      border-color: transparent;
+    }
+
+    .req-card-full h3 { color: white; }
+    .req-card-full p { color: rgba(255,255,255,0.6); }
+
+    .req-card-full .req-note {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* SETUP RISTORATORE */
+    .setup-section {
+      background: var(--black);
+      color: white;
+      padding: 100px 40px;
+    }
+
+    .setup-section .section-label { color: rgba(255,255,255,0.4); }
+    .setup-section h2 { color: white; }
+    .setup-section h2 em { color: var(--green); }
+
+    .setup-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .setup-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 60px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .setup-step {
+      background: var(--black);
+      padding: 48px 36px;
+      position: relative;
+    }
+
+    .setup-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 72px;
+      color: rgba(255,255,255,1);
+      line-height: 1;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .setup-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .setup-step h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: white;
+    }
+
+    .setup-step p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+    }
+
+    /* UTILITY */
+    .section-sub {
+      margin-top: 16px;
+      font-size: 17px;
+      color: var(--gray);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    footer a {
+      color: var(--gray);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--black); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 80px 20px 60px; }
+      h1 { font-size: 36px; letter-spacing: -1px; margin-bottom: 20px; }
+      h2 { font-size: 28px; }
+      .section { padding: 60px 20px; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 1px; padding: 1px; }
+      .step { padding: 32px 20px; }
+      .step-num { font-size: 48px; margin-bottom: 16px; }
+      .step-icon { font-size: 28px; }
+      .step h3 { font-size: 18px; margin-bottom: 10px; }
+      .step p { font-size: 13px; }
+      .features-grid { grid-template-columns: 1fr; gap: 12px; }
+      .feature { padding: 20px; border-radius: 16px; }
+      .feature-icon { font-size: 24px; margin-bottom: 12px; }
+      .feature h3 { font-size: 15px; margin-bottom: 6px; }
+      .feature p { font-size: 13px; }
+      .feature-big { grid-column: span 1; }
+      .feature-full { grid-column: span 1; }
+      .pricing-card { padding: 32px 20px; }
+      .pricing-amount { font-size: 56px; }
+      .pricing-features { grid-template-columns: 1fr; }
+      .demo-grid { grid-template-columns: 1fr; gap: 40px; }
+      .chat-window { min-height: 280px; }
+      .chat-messages { min-height: 280px; }
+      .cta-section { padding: 60px 20px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+      .proof-bar { padding: 16px 20px; gap: 16px; flex-wrap: wrap; }
+      .proof-item { font-size: 12px; }
+      .how-section { padding: 60px 20px; }
+      .how-section h2 { color: white; }
+      .mini-chats-grid { grid-template-columns: 1fr; }
+      .mini-chat { margin-bottom: 24px; }
+      .requirements-grid { grid-template-columns: 1fr; }
+      .req-card { padding: 24px; }
+      .req-card-full { grid-column: span 1; }
+      .menu-chats-section { padding: 60px 20px; }
+      .requirements-section { padding: 60px 20px; }
+      .setup-section { padding: 60px 20px; }
+      .setup-steps { grid-template-columns: 1fr; gap: 1px; padding: 1px; }
+      .setup-step { padding: 32px 20px; background: var(--black); }
+      .setup-step:not(:last-child)::after { display: none; }
+      .setup-num { font-size: 48px; margin-bottom: 16px; }
+      .setup-icon { font-size: 28px; }
+      .setup-step h3 { font-size: 18px; margin-bottom: 10px; }
+      .setup-step p { font-size: 13px; }
+      .hero-actions { flex-direction: column; width: 100%; }
+      .hero-actions a { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">excus<span>A</span>m<span>I</span></div>
+    <div class="nav-links">
+      <a href="#come-funziona">Come funziona</a>
+      <a href="#vantaggi">Vantaggi</a>
+      <a href="#pricing">Accesso anticipato</a>
+    </div>
+    <a href="#contatti" class="nav-cta">Primo mese gratis →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-tag">
+      <span class="dot"></span>
+      Nessuna commissione · Nessuna app
+    </div>
+    <h1>I tuoi clienti ordinano su <em>WhatsApp.</em> Tu incassi di più.</h1>
+    <p class="hero-sub">Niente app da scaricare. I clienti consultano il menù, fanno domande, ordinano — tutto su WhatsApp. L'ordine arriva in cucina in automatico.</p>
+    <div class="hero-actions">
+      <a href="https://wa.me/393505869338?text=Ciao%2C+vorrei+provare+ExcusAmi+gratis" class="btn-primary" rel="noopener noreferrer" aria-label="Contattaci su WhatsApp per iniziare il primo mese gratis">
+        💬 Scrivici su WhatsApp
+      </a>
+      <a href="#come-funziona" class="btn-secondary">
+        Vedi come funziona ↓
+      </a>
+    </div>
+    <p class="hero-note">✓ Primo mese gratis &nbsp;·&nbsp; ✓ Setup incluso &nbsp;·&nbsp; ✓ Offerta valida per i primi 3 ristoranti</p>
+  </section>
+
+  <!-- PROOF BAR -->
+  <div class="proof-bar">
+    <div class="proof-item">
+      <strong>0%</strong>
+      commissioni su ogni ordine
+    </div>
+    <div class="proof-item">
+      <strong>10s</strong>
+      per completare un ordine
+    </div>
+    <div class="proof-item">
+      <strong>0</strong>
+      app da scaricare per il cliente
+    </div>
+    <div class="proof-item">
+      <strong>24/7</strong>
+      supporto diretto
+    </div>
+    <div class="proof-item">
+      🌍 Funziona in qualsiasi lingua
+    </div>
+  </div>
+
+  <!-- PROBLEMA -->
+  <section class="section">
+    <div class="section-label">Il problema</div>
+    <h2>Sabato sera. 80 tavoli. <br>4 camerieri. <em>Caos.</em></h2>
+    <div class="problem-grid reveal">
+      <div class="problem-visual">
+        <div class="problem-scene">
+          <div class="scene-item">
+            <span class="scene-icon">🙋</span>
+            <div class="scene-text">
+              <strong>Cliente al tavolo 7</strong>
+              <span>Alza la mano da 8 minuti</span>
+            </div>
+            <span class="scene-bad">✗</span>
+          </div>
+          <div class="scene-item">
+            <span class="scene-icon">🏃</span>
+            <div class="scene-text">
+              <strong>Cameriere</strong>
+              <span>Sta gestendo 20 tavoli da solo</span>
+            </div>
+            <span class="scene-bad">✗</span>
+          </div>
+          <div class="scene-item">
+            <span class="scene-icon">📱</span>
+            <div class="scene-text">
+              <strong>Cliente scarica l'app del locale</strong>
+              <span>3 minuti, registrazione, password... abbandona</span>
+            </div>
+            <span class="scene-bad">✗</span>
+          </div>
+          <div class="scene-item">
+            <span class="scene-icon">🍕</span>
+            <div class="scene-text">
+              <strong>Ordine sbagliato in cucina</strong>
+              <span>Il cameriere ha capito male</span>
+            </div>
+            <span class="scene-bad">✗</span>
+          </div>
+        </div>
+      </div>
+      <div class="problem-list">
+        <div class="problem-item">
+          <h3>I clienti aspettano troppo</h3>
+          <p>Nei momenti di punta i camerieri non riescono a stare dietro a tutti i tavoli. I clienti si innervosiscono, l'esperienza peggiora.</p>
+        </div>
+        <div class="problem-item">
+          <h3>Le app non le scarica nessuno</h3>
+          <p>Il 73% degli utenti abbandona se deve scaricare un'app per ordinare. Troppa frizione, troppo tempo, troppo impegno.</p>
+        </div>
+        <div class="problem-item">
+          <h3>Deliveroo ti prende il 30%</h3>
+          <p>Le piattaforme di delivery ti portano clienti ma si prendono quasi un terzo di ogni ordine. Un costo insostenibile per i margini della ristorazione.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COME FUNZIONA -->
+  <section class="how-section" id="come-funziona">
+    <div class="how-inner">
+      <div class="section-label">Come funziona</div>
+      <h2>Quattro passi. <em>Trenta secondi.</em></h2>
+      <div class="steps reveal">
+        <div class="step">
+          <span class="step-num">01</span>
+          <span class="step-icon">📱</span>
+          <h3>Il cliente inquadra il QR</h3>
+          <p>Sul tavolo c'è un QR code. Lo inquadra con il telefono e si apre WhatsApp — l'app che ha già. Niente download, niente registrazione.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <span class="step-icon">🍽️</span>
+          <h3>Esplora il menù</h3>
+          <p>Chiede ingredienti, allergeni, consigli. "Cosa c'è senza glutine?" "Mi consigli una pizza con le patate?" Il bot risponde come il tuo miglior cameriere.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <span class="step-icon">💬</span>
+          <h3>Ordina in linguaggio naturale</h3>
+          <p>Scrive quello che vuole come se parlasse a un cameriere. "Una margherita senza basilico e una birra media." Il bot capisce e conferma in 2 secondi.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <span class="step-icon">✅</span>
+          <h3>L'ordine arriva in cucina</h3>
+          <p>Sul tablet in cucina appare l'ordine con una notifica sonora. Il cameriere porta e basta. Zero errori di comunicazione, zero attese.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU CHAT -->
+  <section class="menu-chats-section">
+    <div class="menu-chats-inner">
+      <div class="section-label reveal">Non solo ordini</div>
+      <h2 class="reveal">Il tuo menù <em>risponde.</em></h2>
+      <p class="section-sub reveal">I clienti fanno domande in linguaggio naturale. Il bot conosce ogni piatto, ogni ingrediente, ogni alternativa.</p>
+      <div class="mini-chats-grid reveal">
+
+        <div class="mini-chat">
+          <div class="mini-chat-label">🔍 Ingredienti</div>
+          <div class="mini-chat-header">
+            <div class="mini-chat-avatar">🍕</div>
+            <div class="mini-chat-info">
+              <strong>Pizzeria Da Mario</strong>
+              <span>● Online</span>
+            </div>
+          </div>
+          <div class="mini-chat-messages">
+            <div class="mini-msg mini-msg-out">Che ingredienti ha la carbonara?</div>
+            <div class="mini-msg mini-msg-in">La nostra carbonara è preparata con:<br><br>🥚 Uova fresche<br>🧀 Pecorino romano DOP<br>🐷 Guanciale di Amatrice<br>🌶️ Pepe nero macinato fresco<br><br>⚠️ Contiene: glutine, uova, lattosio.<br><br>Vuoi aggiungerla all'ordine? 😊</div>
+          </div>
+        </div>
+
+        <div class="mini-chat">
+          <div class="mini-chat-label">💡 Consigli personalizzati</div>
+          <div class="mini-chat-header">
+            <div class="mini-chat-avatar">🍕</div>
+            <div class="mini-chat-info">
+              <strong>Pizzeria Da Mario</strong>
+              <span>● Online</span>
+            </div>
+          </div>
+          <div class="mini-chat-messages">
+            <div class="mini-msg mini-msg-out">Vorrei una pizza con le patate, quali mi consigli?</div>
+            <div class="mini-msg mini-msg-in">Abbiamo due pizze con le patate che adorerai:<br><br>🥔 <strong>Patate e rosmarino</strong> — base bianca, patate a fette, rosmarino fresco, olio EVO (€9)<br><br>🥔 <strong>Rustica</strong> — pomodoro, patate, salsiccia, provola (€11)<br><br>Qual è la tua preferita?</div>
+          </div>
+        </div>
+
+        <div class="mini-chat">
+          <div class="mini-chat-label">⚕️ Allergie & Intolleranze</div>
+          <div class="mini-chat-header">
+            <div class="mini-chat-avatar">🍕</div>
+            <div class="mini-chat-info">
+              <strong>Pizzeria Da Mario</strong>
+              <span>● Online</span>
+            </div>
+          </div>
+          <div class="mini-chat-messages">
+            <div class="mini-msg mini-msg-out">Sono celiaco, cosa posso mangiare?</div>
+            <div class="mini-msg mini-msg-in">Abbiamo diverse opzioni senza glutine 🌾<br><br>✅ Pizza base senza glutine (su richiesta)<br>✅ Insalata mista<br>✅ Tagliata di manzo<br>✅ Panna cotta<br><br>⚠️ Informiamo che la cucina non è certificata gluten-free. Per allergie gravi ti metto in contatto con lo staff.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- COSA SERVE -->
+  <section class="requirements-section">
+    <div class="section-label">Cosa serve</div>
+    <h2>Due cose. <em>Le hai già.</em></h2>
+    <p class="section-sub">Niente server da comprare, niente hardware speciale. L'unico requisito è avere già WhatsApp e un dispositivo in cucina.</p>
+    <div class="requirements-grid reveal">
+
+      <div class="req-card">
+        <span class="req-icon">📲</span>
+        <h3>Una SIM dedicata</h3>
+        <p>excusAmI funziona su un numero WhatsApp dedicato al ristorante — separato dal tuo personale. Serve una SIM con un numero italiano che usi solo per questo servizio.</p>
+        <p>Il numero va associato al tuo account Facebook Business. Ci pensiamo noi a configurare tutto — a te basta avere la SIM.</p>
+        <span class="req-note req-note-green">✓ Una SIM costa pochi euro</span>
+      </div>
+
+      <div class="req-card">
+        <span class="req-icon">📟</span>
+        <h3>Un dispositivo in cucina</h3>
+        <p>Gli ordini arrivano in tempo reale su una dashboard web. Basta aprire il browser su qualsiasi dispositivo — tablet, smartphone, vecchio iPad, computer.</p>
+        <p>Nessuna app da installare, nessun account da creare. Apri la pagina e gli ordini arrivano con notifica sonora.</p>
+        <span class="req-note req-note-green">✓ Funziona su qualsiasi dispositivo con un browser</span>
+      </div>
+
+      <div class="req-card req-card-full">
+        <span class="req-icon">🛠️</span>
+        <h3>Il resto lo facciamo noi — tutto incluso nel setup</h3>
+        <p>Configurazione WhatsApp Business API, caricamento del tuo menù, creazione QR code personalizzati per ogni tavolo, collegamento con la dashboard cucina. Ti consegniamo tutto pronto in meno di una settimana.</p>
+        <span class="req-note">✓ Setup completo incluso nei 150€ una tantum</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SETUP: COME INIZI -->
+  <section class="setup-section">
+    <div class="setup-inner">
+      <div class="section-label">Come inizi</div>
+      <h2>Online in <em>una settimana</em>. Facciamo tutto noi.</h2>
+      <div class="setup-steps reveal">
+        <div class="setup-step">
+          <span class="setup-num">01</span>
+          <span class="setup-icon">💬</span>
+          <h3>Ci scrivi su WhatsApp</h3>
+          <p>Un messaggio e sei già nel processo. Niente form da compilare, niente demo call da prenotare. Ti rispondiamo entro un'ora.</p>
+        </div>
+        <div class="setup-step">
+          <span class="setup-num">02</span>
+          <span class="setup-icon">🍽️</span>
+          <h3>Ci mandi il menù</h3>
+          <p>Foto, PDF, file Word — qualsiasi formato. Carichiamo tutto noi e addestriamo il bot sul tuo menù, con prezzi e varianti.</p>
+        </div>
+        <div class="setup-step">
+          <span class="setup-num">03</span>
+          <span class="setup-icon">✅</span>
+          <h3>Sei online</h3>
+          <p>In meno di una settimana ricevi i QR code pronti da stampare e la dashboard cucina attiva. I clienti possono già ordinare.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO CHAT -->
+  <section class="demo-section">
+    <div class="section-label">Demo</div>
+    <h2>Vedi com'è <em>semplice.</em></h2>
+    <div class="demo-grid reveal">
+      <div class="chat-window">
+        <div class="chat-header">
+          <div class="chat-avatar">🍕</div>
+          <div class="chat-info">
+            <strong>Pizzeria Da Mario</strong>
+            <span>● Online</span>
+          </div>
+        </div>
+        <div class="chat-messages">
+          <div class="msg msg-in">
+            Ciao! Sono l'assistente della Pizzeria Da Mario 🍕 Cosa vuoi ordinare stasera?
+            <div class="msg-time">20:14</div>
+          </div>
+          <div class="msg msg-out">
+            Vorrei una margherita senza basilico e una birra media
+            <div class="msg-time">20:14</div>
+          </div>
+          <div class="msg msg-in">
+            Perfetto! Ho aggiunto al tuo ordine:<br><br>
+            🍕 1× Margherita (senza basilico) — €8,00<br>
+            🍺 1× Birra media — €4,50<br><br>
+            <strong>Totale: €12,50</strong><br><br>
+            Confermo l'ordine? 😊
+            <div class="msg-time">20:14</div>
+          </div>
+          <div class="msg msg-out">
+            Sì, confermo!
+            <div class="msg-time">20:15</div>
+          </div>
+          <div class="msg msg-in">
+            ✅ Ordine inviato in cucina! Buon appetito! 🤌🇮🇹
+            <div class="msg-time">20:15</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-text">
+        <h3>Il bot parla come un cameriere vero.</h3>
+        <p>Non risposte robotiche, non menu infiniti da sfogliare. Il cliente scrive quello che vuole in modo naturale e il bot capisce tutto — modifiche, varianti, allergie.</p>
+        <p>Funziona in italiano, inglese, spagnolo, francese. I turisti ordinano nella loro lingua, l'ordine arriva in italiano in cucina.</p>
+        <a href="https://wa.me/393505869338?text=Ciao%2C+voglio+provare+la+demo" class="btn-primary" rel="noopener noreferrer" aria-label="Prova la demo di excusAmI su WhatsApp">
+          💬 Prova la demo ora
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VANTAGGI -->
+  <section class="section" id="vantaggi">
+    <div class="section-label">Vantaggi</div>
+    <h2>Tutto quello che ti serve. <em>Niente di superfluo.</em></h2>
+    <div class="features-grid reveal">
+      <div class="feature feature-big">
+        <span class="feature-icon">💬</span>
+        <h3>WhatsApp — già sul telefono di tutti</h3>
+        <p>Il 90% degli italiani usa WhatsApp ogni giorno. Non devi convincere i tuoi clienti a scaricare niente. Scansionano il QR e sono già dentro. Il tasso di completamento ordine è 3× superiore alle app dedicate.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">0%</span>
+        <h3>Zero commissioni</h3>
+        <p>Ogni ordine è tuo al 100%. Niente Deliveroo, niente Glovo, niente TheFork. Solo tu e il tuo cliente.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🌍</span>
+        <h3>Multilingua automatico</h3>
+        <p>Il bot risponde nella lingua del cliente. Turisti inclusi. L'ordine arriva sempre in italiano in cucina.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">⚡</span>
+        <h3>Setup facile</h3>
+        <p>Nessuna infrastruttura da installare. Un QR code sul tavolo e un tablet in cucina. Ci pensiamo noi a tutto.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🧠</span>
+        <h3>Conosce ogni piatto a memoria</h3>
+        <p>Ingredienti, allergeni, consigli personalizzati. "Cosa c'è senza lattosio?" o "mi consigli una pizza con le patate?" — risponde come il tuo miglior cameriere.</p>
+      </div>
+      <div class="feature feature-full">
+        <span class="feature-icon">📊</span>
+        <h3>Dashboard in tempo reale</h3>
+        <p>La cucina vede gli ordini arrivare in diretta con notifica sonora. Niente carta, niente casino.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="pricing-inner">
+      <div class="section-label">Accesso anticipato</div>
+      <h2>🎉 Primo mese gratis — setup incluso per i primi 3 ristoranti</h2>
+      <div class="pricing-card reveal">
+        <div class="pricing-badge">Stiamo testando il servizio con alcuni locali selezionati</div>
+        <div class="pricing-setup">Installazione completa in meno di una settimana.</div>
+        <div class="pricing-amount">Accesso limitato</div>
+        <div class="pricing-period">I primi 3 ristoranti ricevono setup completo gratuito in cambio di feedback.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature">Installiamo e configuriamo tutto noi</div>
+          <div class="pricing-feature">Carichiamo il menù e le varianti</div>
+          <div class="pricing-feature">QR code personalizzati per ogni tavolo</div>
+          <div class="pricing-feature">Dashboard cucina pronta all'uso</div>
+          <div class="pricing-feature">Supporto diretto via WhatsApp</div>
+          <div class="pricing-feature">Ti consegniamo tutto pronto</div>
+          <div class="pricing-feature">Nessuna commissione sugli ordini</div>
+          <div class="pricing-feature">Aggiornamenti inclusi</div>
+        </div>
+        <a href="https://wa.me/393505869338?text=Ciao%2C+ho+visto+excusAmI+%E2%80%94+%C3%A8+ancora+disponibile+il+primo+mese+gratis%3F+Quanto+costa+dopo%3F" class="btn-primary" rel="noopener noreferrer" aria-label="Scrivici su WhatsApp per chiedere disponibilità e prezzo" style="width: 100%; justify-content: center; font-size: 16px; padding: 18px;">
+          💬 Scrivici su WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section class="cta-section" id="contatti">
+    <div class="cta-bg"></div>
+    <h2>Pronto a dire <em>excusAmI</em> alle attese?</h2>
+    <p>Scrivici su WhatsApp. Ti rispondiamo entro poco e installiamo tutto gratis.</p>
+    <div class="cta-actions">
+      <a href="https://wa.me/393505869338?text=Ciao%2C+voglio+saperne+di+più+su+excusAmI" class="btn-primary" rel="noopener noreferrer" aria-label="Scrivici su WhatsApp per saperne di più su excusAmI" style="font-size: 16px; padding: 18px 32px;">
+        💬 Scrivici ora su WhatsApp
+      </a>
+      <a href="mailto:ciao@excusami.xyz" class="btn-white" rel="noopener noreferrer" aria-label="Contattaci via email a ciao@excusami.xyz">
+        ✉️ Oppure via email
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo">excus<span>A</span>m<span>I</span></div>
+    <span>© 2026 excusAmI · Ordina su WhatsApp, senza app.</span>
+    <span><a href="/privacy">Privacy policy</a> · Made in Italy 🤌🇮🇹</span>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Smooth scroll per i link interni
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>
