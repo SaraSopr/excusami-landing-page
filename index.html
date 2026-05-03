@@ -3,23 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>excusAmI — Ordina su WhatsApp. Niente app. Niente attese.</title>
-  <meta name="description" content="I tuoi clienti ordinano direttamente da WhatsApp dal tavolo. Consultano il menù, chiedono ingredienti, ordinano. Stiamo selezionando i primi 3 ristoranti pilota per il lancio.">
+  <title>excusAmI — Sistema di ordinazione al tavolo via WhatsApp per ristoranti</title>
+  <meta name="description" content="excusAmI permette ai clienti del tuo ristorante di ordinare direttamente via WhatsApp dal tavolo — senza app, senza commissioni. L'ordine arriva in cucina in pochi secondi. Setup incluso.">
+  <meta name="keywords" content="ordinazione al tavolo WhatsApp, sistema ordini ristorante, menu digitale ristorante, ordini QR code ristorante, software ristorazione, niente commissioni ristorante">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://excusami.xyz/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://excusami.xyz/">
-  <meta property="og:title" content="excusAmI — Ordina su WhatsApp. Niente app. Niente attese.">
-  <meta property="og:description" content="I tuoi clienti ordinano direttamente da WhatsApp dal tavolo. Stiamo selezionando i primi 3 ristoranti pilota per il lancio.">
+  <meta property="og:title" content="excusAmI — Ordinazione al tavolo via WhatsApp. Zero app, zero commissioni.">
+  <meta property="og:description" content="I clienti del tuo ristorante ordinano via WhatsApp dal tavolo. Nessuna app da scaricare, nessuna commissione per ordine. Setup completo in meno di una settimana.">
   <meta property="og:image" content="https://excusami.xyz/og-image.png">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:site_name" content="excusAmI">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="excusAmI — Ordina su WhatsApp. Niente app. Niente attese.">
-  <meta name="twitter:description" content="I tuoi clienti ordinano direttamente da WhatsApp dal tavolo. Stiamo selezionando i primi 3 ristoranti pilota per il lancio.">
+  <meta name="twitter:title" content="excusAmI — Ordinazione al tavolo via WhatsApp. Zero app, zero commissioni.">
+  <meta name="twitter:description" content="I clienti del tuo ristorante ordinano via WhatsApp dal tavolo. Nessuna app da scaricare, nessuna commissione per ordine.">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "excusAmI",
+    "url": "https://excusami.xyz/",
+    "description": "Sistema di ordinazione al tavolo via WhatsApp per ristoranti. I clienti ordinano direttamente da WhatsApp inquadrando un QR code, senza scaricare app. Zero commissioni per ordine.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web, WhatsApp",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR",
+      "description": "Primo mese gratuito con setup completo incluso per i primi 3 ristoranti pilota"
+    },
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Ristoratori"
+    },
+    "inLanguage": "it",
+    "featureList": [
+      "Ordinazione al tavolo via WhatsApp",
+      "Menu digitale con risposta in linguaggio naturale",
+      "Dashboard ordini in tempo reale",
+      "Supporto multilingua automatico",
+      "Zero commissioni per ordine",
+      "QR code personalizzati per ogni tavolo"
+    ]
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -312,9 +349,10 @@
       border-bottom: 1px solid var(--border);
       padding: 20px 40px;
       display: flex;
+      justify-content: center;
       align-items: center;
       gap: 40px;
-      overflow-x: auto;
+      flex-wrap: wrap;
     }
 
     .proof-item {
@@ -331,6 +369,12 @@
       color: var(--black);
       font-size: 20px;
       font-family: 'Instrument Serif', serif;
+    }
+
+    .proof-dot {
+      width: 4px; height: 4px;
+      background: var(--border);
+      border-radius: 50%;
     }
 
     /* PROBLEM */
@@ -1246,25 +1290,15 @@
 
   <!-- PROOF BAR -->
   <div class="proof-bar">
-    <div class="proof-item">
-      <strong>0%</strong>
-      commissioni su ogni ordine
-    </div>
-    <div class="proof-item">
-      <strong>&lt; 1 min</strong>
-      per completare un ordine
-    </div>
-    <div class="proof-item">
-      <strong>0</strong>
-      app da scaricare per il cliente
-    </div>
-    <div class="proof-item">
-      <strong>⚡</strong>
-      supporto diretto via WhatsApp
-    </div>
-    <div class="proof-item">
-      🌍 Funziona in qualsiasi lingua
-    </div>
+    <div class="proof-item"><strong>0%</strong> commissioni su ogni ordine</div>
+    <div class="proof-dot"></div>
+    <div class="proof-item"><strong>&lt; 1 min</strong> per completare un ordine</div>
+    <div class="proof-dot"></div>
+    <div class="proof-item"><strong>0</strong> app da scaricare per il cliente</div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">⚡ supporto diretto via WhatsApp</div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">🌍 Funziona in qualsiasi lingua</div>
   </div>
 
   <!-- PROBLEMA -->
