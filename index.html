@@ -104,12 +104,89 @@
     /* HERO */
     .hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
       padding: 120px 40px 80px;
       position: relative;
       overflow: hidden;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-visual {
+      position: relative;
+      animation: fadeUp 0.6s 0.3s ease both;
+      align-self: center;
+    }
+
+    .hero-visual .chat-window {
+      max-height: none;
+    }
+
+    .hero-visual .chat-messages {
+      min-height: unset;
+    }
+
+    .hero-visual .msg {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .hero-visual .msg.msg-show { display: block; }
+    .hero-visual .msg-in.msg-show  { transform: translateX(-18px); }
+    .hero-visual .msg-out.msg-show { transform: translateX(18px); }
+
+    .hero-visual .msg.msg-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .typing-indicator {
+      display: none;
+      align-items: center;
+      gap: 5px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      width: fit-content;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .typing-indicator.visible { display: flex; opacity: 1; }
+
+    .typing-in {
+      background: white;
+      border-radius: 4px 12px 12px 12px;
+      align-self: flex-start;
+    }
+
+    .typing-out {
+      background: #DCF8C6;
+      border-radius: 12px 4px 12px 12px;
+      align-self: flex-end;
+    }
+
+    .typing-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      animation: typingBounce 1s infinite;
+    }
+
+    .typing-in  .typing-dot { background: #aaa; }
+    .typing-out .typing-dot { background: var(--green); }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.30s; }
+
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
     }
 
     .hero-bg {
@@ -1031,7 +1108,8 @@
     @media (max-width: 768px) {
       nav { padding: 16px 20px; }
       .nav-links { display: none; }
-      .hero { padding: 80px 20px 60px; }
+      .hero { padding: 80px 20px 60px; grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
       h1 { font-size: 36px; letter-spacing: -1px; margin-bottom: 20px; }
       h2 { font-size: 28px; }
       .section { padding: 60px 20px; }
@@ -1097,21 +1175,73 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-tag">
-      <span class="dot"></span>
-      Nessuna commissione · Nessuna app
+
+    <div class="hero-content">
+      <div class="hero-tag">
+        <span class="dot"></span>
+        Nessuna commissione · Nessuna app
+      </div>
+      <h1>I tuoi clienti ordinano su <em>WhatsApp.</em> Tu incassi di più.</h1>
+      <p class="hero-sub">Niente app da scaricare. I clienti consultano il menù, fanno domande, ordinano — tutto su WhatsApp. L'ordine arriva in cucina in pochi secondi.</p>
+      <div class="hero-actions">
+        <a href="https://wa.me/393505869338?text=Ciao%2C+vorrei+provare+ExcusAmi+gratis" class="btn-primary" rel="noopener noreferrer" aria-label="Contattaci su WhatsApp per iniziare il primo mese gratis">
+          💬 Scrivici su WhatsApp
+        </a>
+        <a href="#come-funziona" class="btn-secondary">
+          Vedi come funziona ↓
+        </a>
+      </div>
+      <p class="hero-note">✓ Primo mese gratis + setup completo incluso — solo per i primi 3 ristoranti pilota</p>
     </div>
-    <h1>I tuoi clienti ordinano su <em>WhatsApp.</em> Tu incassi di più.</h1>
-    <p class="hero-sub">Niente app da scaricare. I clienti consultano il menù, fanno domande, ordinano — tutto su WhatsApp. L'ordine arriva in cucina in pochi secondi.</p>
-    <div class="hero-actions">
-      <a href="https://wa.me/393505869338?text=Ciao%2C+vorrei+provare+ExcusAmi+gratis" class="btn-primary" rel="noopener noreferrer" aria-label="Contattaci su WhatsApp per iniziare il primo mese gratis">
-        💬 Scrivici su WhatsApp
-      </a>
-      <a href="#come-funziona" class="btn-secondary">
-        Vedi come funziona ↓
-      </a>
+
+    <div class="hero-visual">
+      <div class="chat-window">
+        <div class="chat-header">
+          <div class="chat-avatar">🍕</div>
+          <div class="chat-info">
+            <strong>Pizzeria Da Mario</strong>
+            <span>● Online</span>
+          </div>
+        </div>
+        <div class="chat-messages" id="hero-chat-messages">
+          <div class="msg msg-in">
+            Ciao! Sono l'assistente della Pizzeria Da Mario 🍕 Cosa vuoi ordinare stasera?
+            <div class="msg-time">20:14</div>
+          </div>
+          <div class="msg msg-out">
+            Vorrei una margherita senza basilico e una birra media
+            <div class="msg-time">20:14</div>
+          </div>
+          <div class="msg msg-in">
+            Perfetto! Ho aggiunto al tuo ordine:<br><br>
+            🍕 1× Margherita (senza basilico) — €8,00<br>
+            🍺 1× Birra media — €4,50<br><br>
+            <strong>Totale: €12,50</strong><br><br>
+            Confermo l'ordine? 😊
+            <div class="msg-time">20:14</div>
+          </div>
+          <div class="msg msg-out">
+            Sì, confermo!
+            <div class="msg-time">20:15</div>
+          </div>
+          <div class="msg msg-in">
+            ✅ Ordine inviato in cucina! Buon appetito! 🤌🇮🇹
+            <div class="msg-time">20:15</div>
+          </div>
+          <div class="typing-indicator typing-in" id="hero-typing-in">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+          <div class="typing-indicator typing-out" id="hero-typing-out">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <p class="hero-note">✓ Primo mese gratis + setup completo incluso — solo per i primi 3 ristoranti pilota</p>
+
   </section>
 
   <!-- PROOF BAR -->
@@ -1498,6 +1628,70 @@
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Animazione chat hero
+    (function() {
+      const typingIn  = document.getElementById('hero-typing-in');
+      const typingOut = document.getElementById('hero-typing-out');
+      const messages  = document.querySelectorAll('#hero-chat-messages .msg');
+
+      const sequence = [
+        { type: 'typing', side: 'in',  duration: 900 },
+        { type: 'msg', index: 0 },           // bot: saluto
+        { type: 'pause', duration: 700 },
+        { type: 'typing', side: 'out', duration: 800 },
+        { type: 'msg', index: 1 },           // utente: ordine
+        { type: 'pause', duration: 400 },
+        { type: 'typing', side: 'in',  duration: 1100 },
+        { type: 'msg', index: 2 },           // bot: riepilogo
+        { type: 'pause', duration: 700 },
+        { type: 'typing', side: 'out', duration: 600 },
+        { type: 'msg', index: 3 },           // utente: conferma
+        { type: 'pause', duration: 400 },
+        { type: 'typing', side: 'in',  duration: 700 },
+        { type: 'msg', index: 4 },           // bot: ordine inviato
+      ];
+
+      function showTyping(side) {
+        (side === 'in' ? typingIn : typingOut).classList.add('visible');
+      }
+
+      function hideTyping(side) {
+        (side === 'in' ? typingIn : typingOut).classList.remove('visible');
+      }
+
+      function showMsg(index) {
+        const m = messages[index];
+        m.classList.add('msg-show');
+        requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('msg-visible')));
+      }
+
+      function reset() {
+        typingIn.classList.remove('visible');
+        typingOut.classList.remove('visible');
+        messages.forEach(m => m.classList.remove('msg-visible', 'msg-show'));
+      }
+
+      function runSequence() {
+        reset();
+        let delay = 400;
+        sequence.forEach(step => {
+          if (step.type === 'typing') {
+            const side = step.side;
+            setTimeout(() => showTyping(side), delay);
+            delay += step.duration;
+            setTimeout(() => hideTyping(side), delay);
+          } else if (step.type === 'msg') {
+            setTimeout(() => showMsg(step.index), delay);
+            delay += 300;
+          } else if (step.type === 'pause') {
+            delay += step.duration;
+          }
+        });
+      }
+
+      runSequence();
+    })();
 
     // Smooth scroll per i link interni
     document.querySelectorAll('a[href^="#"]').forEach(a => {
